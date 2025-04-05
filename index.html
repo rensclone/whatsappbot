@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Bot Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
+        button { margin: 10px; padding: 10px 20px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>WhatsApp Bot Dashboard</h1>
+    <p>Status Bot: <span id="status">Checking...</span></p>
+    <button onclick="startBot()">Start Bot</button>
+    <button onclick="stopBot()">Stop Bot</button>
+
+    <script>
+        async function checkStatus() {
+            const res = await fetch('/status');
+            const data = await res.json();
+            document.getElementById('status').innerText = data.status === 'running' ? '🟢 Running' : '🔴 Stopped';
+        }
+
+        async function startBot() {
+            await fetch('/start-bot');
+            checkStatus();
+        }
+
+        async function stopBot() {
+            await fetch('/stop-bot');
+            checkStatus();
+        }
+
+        checkStatus();
+    </script>
+</body>
+</html>
